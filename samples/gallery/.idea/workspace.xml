@@ -39,8 +39,8 @@
       <file leaf-file-name="Glide.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/Glide.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-170">
-              <caret line="267" column="50" selection-start-line="267" selection-start-column="7" selection-end-line="267" selection-end-column="50" />
+            <state relative-caret-position="551">
+              <caret line="765" column="32" selection-start-line="765" selection-start-column="18" selection-end-line="765" selection-end-column="32" />
               <folding>
                 <element signature="e#12706#12780#0" expanded="true" />
               </folding>
@@ -51,22 +51,49 @@
       <file leaf-file-name="GlideBuilder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/GlideBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="512" column="107" selection-start-line="512" selection-start-column="86" selection-end-line="512" selection-end-column="107" />
+            <state relative-caret-position="1617">
+              <caret line="510" column="33" selection-start-line="510" selection-start-column="26" selection-end-line="510" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RequestManagerRetriever.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RequestManagerRetriever.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/manager/RequestManagerRetriever.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="634">
-              <caret line="516" column="61" lean-forward="true" selection-start-line="516" selection-start-column="61" selection-end-line="516" selection-end-column="61" />
+            <state relative-caret-position="289">
+              <caret line="151" column="26" selection-start-line="151" selection-start-column="26" selection-end-line="151" selection-end-column="26" />
+              <folding>
+                <element signature="e#19833#20211#0" expanded="true" />
+                <element signature="e#20210#20211#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RequestManager.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/RequestManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="58" column="58" selection-start-line="58" selection-start-column="58" selection-end-line="58" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LifecycleListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/manager/LifecycleListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>ID_REMOVE_SUPPORT_FRAGMENT_MANAGER</find>
+    </findStrings>
   </component>
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
@@ -15854,6 +15881,7 @@
         <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/Glide.java" />
         <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/GlideBuilder.java" />
         <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/manager/RequestManagerRetriever.java" />
+        <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/RequestManager.java" />
       </list>
     </option>
   </component>
@@ -16478,20 +16506,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../annotation/src/main/java/com/bumptech/glide/annotation/GlideExtension.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../annotation/src/main/java/com/bumptech/glide/annotation/Excludes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="17" column="18" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.12.1/66942a30c13605d8c415529cd889b67dc84d38ac/okhttp-3.12.1-sources.jar!/okhttp3/Callback.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -16739,17 +16753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/GeneratedAppGlideModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
-          <folding>
-            <element signature="e#897#898#0" expanded="true" />
-            <element signature="e#918#919#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/manager/NullConnectivityMonitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -16853,23 +16856,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/Glide.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-170">
-          <caret line="267" column="50" selection-start-line="267" selection-start-column="7" selection-end-line="267" selection-end-column="50" />
-          <folding>
-            <element signature="e#12706#12780#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/GlideBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="512" column="107" selection-start-line="512" selection-start-column="86" selection-end-line="512" selection-end-column="107" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/manager/RequestManagerTreeNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -16892,10 +16878,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/GlideBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1617">
+          <caret line="510" column="33" selection-start-line="510" selection-start-column="26" selection-end-line="510" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/GeneratedAppGlideModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="22" column="76" lean-forward="true" selection-start-line="22" selection-start-column="76" selection-end-line="22" selection-end-column="76" />
+          <folding>
+            <element signature="e#918#919#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/manager/RequestManagerRetriever.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="516" column="61" lean-forward="true" selection-start-line="516" selection-start-column="61" selection-end-line="516" selection-end-column="61" />
+        <state relative-caret-position="289">
+          <caret line="151" column="26" selection-start-line="151" selection-start-column="26" selection-end-line="151" selection-end-column="26" />
+          <folding>
+            <element signature="e#19833#20211#0" expanded="true" />
+            <element signature="e#20210#20211#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/Glide.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="765" column="32" selection-start-line="765" selection-start-column="18" selection-end-line="765" selection-end-column="32" />
+          <folding>
+            <element signature="e#12706#12780#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/manager/LifecycleListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/RequestManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="58" column="58" selection-start-line="58" selection-start-column="58" selection-end-line="58" selection-end-column="58" />
         </state>
       </provider>
     </entry>

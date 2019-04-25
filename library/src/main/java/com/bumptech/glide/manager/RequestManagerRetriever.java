@@ -37,7 +37,7 @@ import java.util.Map;
  * <p>
  * <p>
  * 主要是创建RequestManager的方法，一般的流程是：
- * 先检索activity和fragment看看是否存在，如果没有则需要创建
+ * 先检索activity和fragment看看是否存在，如果没有则需要创建，并把Fragmengt的生命周期与RequstManager关联起来
  */
 public class RequestManagerRetriever implements Handler.Callback {
     @VisibleForTesting
@@ -464,6 +464,7 @@ public class RequestManagerRetriever implements Handler.Callback {
                 //添加到缓存中
                 pendingSupportRequestManagerFragments.put(fm, current);
                 fm.beginTransaction().add(current, FRAGMENT_TAG).commitAllowingStateLoss();
+//绑定成功后则从pendingRequestManagerFragments移除fragment。这里的pendingRequestManagerFragments主要是防止fragment重复创建，因为每个activity必须对应一个唯一的fragment。
                 handler.obtainMessage(ID_REMOVE_SUPPORT_FRAGMENT_MANAGER, fm).sendToTarget();
             }
         }
@@ -521,6 +522,8 @@ public class RequestManagerRetriever implements Handler.Callback {
     }
 
     /**
+     * 创建RequestManager，使用默认工厂
+     * <p>
      * Used internally to create {@link RequestManager}s.
      */
     public interface RequestManagerFactory {
