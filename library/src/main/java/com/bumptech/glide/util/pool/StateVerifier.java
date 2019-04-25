@@ -25,8 +25,8 @@ public abstract class StateVerifier {
 
   /**
    * Throws an exception if we believe our object is recycled and inactive (i.e. is currently in an
-   * object pool).
-   */
+          * object pool).
+          */
   public abstract void throwIfRecycled();
 
   /**

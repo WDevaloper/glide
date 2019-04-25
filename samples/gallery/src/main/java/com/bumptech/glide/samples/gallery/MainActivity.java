@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 
 /**
@@ -35,6 +36,8 @@ public class MainActivity extends FragmentActivity {
         } else {
             replaceFragment();
         }
+
+        Glide.with(this).load("").into()
     }
 
     private void requestStoragePermission() {
