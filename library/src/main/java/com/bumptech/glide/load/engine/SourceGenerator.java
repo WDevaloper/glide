@@ -69,10 +69,10 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
         boolean started = false;
         while (!started && hasNextModelLoader()) {
             loadData = helper.getLoadData().get(loadDataListIndex++);
-            
-            if (loadData != null
-                    && (helper.getDiskCacheStrategy().isDataCacheable(loadData.fetcher.getDataSource())
-                    || helper.hasLoadPath(loadData.fetcher.getDataClass()))) {
+
+            if (loadData != null &&
+                    (helper.getDiskCacheStrategy().isDataCacheable(loadData.fetcher.getDataSource())
+                            || helper.hasLoadPath(loadData.fetcher.getDataClass()))) {
                 started = true;
 
                 /**
@@ -148,12 +148,14 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
          * 获取磁盘缓存策略
          */
         DiskCacheStrategy diskCacheStrategy = helper.getDiskCacheStrategy();
+
+        //如果不缓存
         if (data != null && diskCacheStrategy.isDataCacheable(loadData.fetcher.getDataSource())) {
             dataToCache = data;
             // We might be being called back on someone else's thread. Before doing anything, we should
             // reschedule to get back onto Glide's thread.
             /**
-             * 重新调度startNext()
+             * 重新调度startNext()，然后调用cacheData(Object dataToCache)取缓存
              */
             cb.reschedule();
         } else {
