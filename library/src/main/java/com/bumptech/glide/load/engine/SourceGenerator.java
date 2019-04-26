@@ -29,11 +29,11 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
     private final DecodeHelper<?> helper;
     // 加载资源回调，一般
     private final FetcherReadyCallback cb;
-
+    //主要和缓存相关
     private volatile ModelLoader.LoadData<?> loadData;
 
-
     private int loadDataListIndex;
+    //数据缓存代
     private DataCacheGenerator sourceCacheGenerator;
     private Object dataToCache;
 
@@ -45,18 +45,21 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
     }
 
     /**
-     * 准备开始拉去数据
+     * 准备开始拉取网络数据
      *
      * @return
      */
     @Override
     public boolean startNext() {
+
+        // 判断是否有数据需要取缓存
         if (dataToCache != null) {
             Object data = dataToCache;
             dataToCache = null;
             cacheData(data);
         }
 
+        // 如果上一步创建了资源缓存代，就开始资源缓存代
         if (sourceCacheGenerator != null && sourceCacheGenerator.startNext()) {
             return true;
         }
@@ -66,6 +69,7 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
         boolean started = false;
         while (!started && hasNextModelLoader()) {
             loadData = helper.getLoadData().get(loadDataListIndex++);
+            
             if (loadData != null
                     && (helper.getDiskCacheStrategy().isDataCacheable(loadData.fetcher.getDataSource())
                     || helper.hasLoadPath(loadData.fetcher.getDataClass()))) {
@@ -86,15 +90,25 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
 
 
     /**
+     * 缓存操作
+     *
      * @param dataToCache
      */
     private void cacheData(Object dataToCache) {
         long startTime = LogTime.getLogTime();
         try {
+            /**
+             * 其实这里主要构造DecodeHelper
+             */
+            //编码
             Encoder<Object> encoder = helper.getSourceEncoder(dataToCache);
+            // 写入缓存
             DataCacheWriter<Object> writer = new DataCacheWriter<>(encoder, dataToCache, helper.getOptions());
+            // 缓存Key
             originalKey = new DataCacheKey(loadData.sourceKey, helper.getSignature());
+
             helper.getDiskCache().put(originalKey, writer);
+
             if (Log.isLoggable(TAG, Log.VERBOSE)) {
                 Log.v(TAG, "Finished encoding source to cache"
                         + ", key: " + originalKey
@@ -110,8 +124,8 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
             loadData.fetcher.cleanup();
         }
 
-        sourceCacheGenerator =
-                new DataCacheGenerator(Collections.singletonList(loadData.sourceKey), helper, this);
+        // 创建资源缓存代
+        sourceCacheGenerator = new DataCacheGenerator(Collections.singletonList(loadData.sourceKey), helper, this);
     }
 
     @Override
