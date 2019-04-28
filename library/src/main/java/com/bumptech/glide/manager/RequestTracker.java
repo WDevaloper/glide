@@ -38,6 +38,8 @@ public class RequestTracker {
     private boolean isPaused;
 
     /**
+     * 开始追踪请求
+     * <p>
      * Starts tracking the given request.
      */
     public void runRequest(@NonNull Request request) {
@@ -50,7 +52,7 @@ public class RequestTracker {
             if (Log.isLoggable(TAG, Log.VERBOSE)) {
                 Log.v(TAG, "Paused, delaying request");
             }
-            //带处理的请求
+            //待处理的请求
             pendingRequests.add(request);
         }
     }

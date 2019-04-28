@@ -225,6 +225,12 @@ public class Glide implements ComponentCallbacks2 {
         initializeGlide(context, new GlideBuilder());
     }
 
+    /**
+     * 真正做初始化的地方
+     *
+     * @param context
+     * @param builder
+     */
     @SuppressWarnings("deprecation")
     private static void initializeGlide(@NonNull Context context, @NonNull GlideBuilder builder) {
         //Application
@@ -764,7 +770,10 @@ public class Glide implements ComponentCallbacks2 {
      */
     @NonNull
     public static RequestManager with(@NonNull FragmentActivity activity) {
-        return getRetriever(activity).get(activity);
+        //第一步是构建RequestManagerRetriever和创建Glide
+        RequestManagerRetriever requestManagerRetriever = getRetriever(activity);
+        RequestManager requestManager = requestManagerRetriever.get(activity);
+        return requestManager;
     }
 
     /**

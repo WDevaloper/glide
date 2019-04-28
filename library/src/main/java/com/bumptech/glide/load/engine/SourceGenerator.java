@@ -1,7 +1,6 @@
 package com.bumptech.glide.load.engine;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.Encoder;
@@ -10,7 +9,6 @@ import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.data.HttpUrlFetcher;
 import com.bumptech.glide.load.model.ModelLoader;
 import com.bumptech.glide.load.model.ModelLoader.LoadData;
-import com.bumptech.glide.util.LogTime;
 
 import java.util.Collections;
 
@@ -68,6 +66,7 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
         loadData = null;
         boolean started = false;
         while (!started && hasNextModelLoader()) {
+            // 获取当前的数据请求器
             loadData = helper.getLoadData().get(loadDataListIndex++);
 
             if (loadData != null &&
@@ -77,6 +76,10 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
 
                 /**
                  *  DataFetcher的loadData()方法的回调时机,请看实现类{@link HttpUrlFetcher}
+                 *
+                 *  还把回调传进去
+                 *
+                 *  异步操作
                  */
                 loadData.fetcher.loadData(helper.getPriority(), this);
             }
@@ -95,7 +98,6 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
      * @param dataToCache
      */
     private void cacheData(Object dataToCache) {
-        long startTime = LogTime.getLogTime();
         try {
             /**
              * 其实这里主要构造DecodeHelper
@@ -106,19 +108,12 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
             DataCacheWriter<Object> writer = new DataCacheWriter<>(encoder, dataToCache, helper.getOptions());
             // 缓存Key
             originalKey = new DataCacheKey(loadData.sourceKey, helper.getSignature());
-
             helper.getDiskCache().put(originalKey, writer);
-
-            if (Log.isLoggable(TAG, Log.VERBOSE)) {
-                Log.v(TAG, "Finished encoding source to cache"
-                        + ", key: " + originalKey
-                        + ", data: " + dataToCache
-                        + ", encoder: " + encoder
-                        + ", duration: " + LogTime.getElapsedMillis(startTime));
-            }
         } finally {
             /**
              * 就是在做完缓存之后回调，请看实现类{@link HttpUrlFetcher}做资源清理工作
+             *
+             * DecodeJob也有调用
              *
              */
             loadData.fetcher.cleanup();
@@ -179,8 +174,6 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
 
     @Override
     public void reschedule() {
-        // We don't expect this to happen, although if we ever need it to we can delegate to our
-        // callback.
         throw new UnsupportedOperationException();
     }
 
@@ -188,8 +181,6 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
     @Override
     public void onDataFetcherReady(Key sourceKey, Object data, DataFetcher<?> fetcher,
                                    DataSource dataSource, Key attemptedKey) {
-        // This data fetcher will be loading from a File and provide the wrong data source, so override
-        // with the data source of the original fetcher
         cb.onDataFetcherReady(sourceKey, data, fetcher, loadData.fetcher.getDataSource(), sourceKey);
     }
 

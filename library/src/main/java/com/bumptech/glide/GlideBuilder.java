@@ -464,7 +464,7 @@ public final class GlideBuilder {
         }
 
 
-        //Bitmap复用池
+        //Bitmap复用池（享元）
         if (bitmapPool == null) {
             int size = memorySizeCalculator.getBitmapPoolSize();
             if (size > 0) {

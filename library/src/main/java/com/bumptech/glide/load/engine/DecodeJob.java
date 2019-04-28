@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 负责从缓存数据或原始源解码资源并应用转换和转码的类。
+ * 注意：此类具有与equals不一致的自然顺序。
+ * <p>
  * A class responsible for decoding resources either from cached data or from the original source
  * and applying transformations and transcodes.
  *
@@ -37,10 +40,8 @@ import java.util.Map;
  * @param <R> The type of resource that will be transcoded from the decoded and transformed
  *            resource.
  */
-class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
-        Runnable,
-        Comparable<DecodeJob<?>>,
-        Poolable {
+class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnable,
+        Comparable<DecodeJob<?>>, Poolable {
     private static final String TAG = "DecodeJob";
 
     private final DecodeHelper<R> decodeHelper = new DecodeHelper<>();
@@ -222,12 +223,7 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
     @SuppressWarnings("PMD.AvoidRethrowingException")
     @Override
     public void run() {
-        // This should be much more fine grained, but since Java's thread pool implementation silently
-        // swallows all otherwise fatal exceptions, this will at least make it obvious to developers
-        // that something is failing.
-        GlideTrace.beginSectionFormat("DecodeJob#run(model=%s)", model);
-        // Methods in the try statement can invalidate currentFetcher, so set a local variable here to
-        // ensure that the fetcher is cleaned up either way.
+        //执行网络
         DataFetcher<?> localFetcher = currentFetcher;
         try {
             if (isCancelled) {
@@ -236,22 +232,8 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
             }
             runWrapped();
         } catch (CallbackException e) {
-            // If a callback not controlled by Glide throws an exception, we should avoid the Glide
-            // specific debug logic below.
             throw e;
         } catch (Throwable t) {
-            // Catch Throwable and not Exception to handle OOMs. Throwables are swallowed by our
-            // usage of .submit() in GlideExecutor so we're not silently hiding crashes by doing this. We
-            // are however ensuring that our callbacks are always notified when a load fails. Without this
-            // notification, uncaught throwables never notify the corresponding callbacks, which can cause
-            // loads to silently hang forever, a case that's especially bad for users using Futures on
-            // background threads.
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "DecodeJob threw unexpectedly"
-                        + ", isCancelled: " + isCancelled
-                        + ", stage: " + stage, t);
-            }
-            // When we're encoding we've already notified our callback and it isn't safe to do so again.
             if (stage != Stage.ENCODE) {
                 throwables.add(t);
                 notifyFailed();
@@ -261,12 +243,13 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
             }
             throw t;
         } finally {
-            // Keeping track of the fetcher here and calling cleanup is excessively paranoid, we call
-            // close in all cases anyway.
+            /**
+             * 我们自定组件时回调cleanup（），如OkHttpStreamFetcher中
+             *
+             */
             if (localFetcher != null) {
                 localFetcher.cleanup();
             }
-            GlideTrace.endSection();
         }
     }
 
@@ -281,7 +264,7 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
                 runGenerators();
                 break;
             case DECODE_DATA:
-                decodeFromRetrievedData();
+                decodeFromRetrievedData();//直接解码，然后返回解码后的数据
                 break;
             default:
                 throw new IllegalStateException("Unrecognized run reason: " + runReason);
@@ -291,10 +274,13 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
     private DataFetcherGenerator getNextGenerator() {
         switch (stage) {
             case RESOURCE_CACHE:
+                //资源磁盘缓存的执行者
                 return new ResourceCacheGenerator(decodeHelper, this);
             case DATA_CACHE:
+                // 源数据磁盘缓存的执行者
                 return new DataCacheGenerator(decodeHelper, this);
             case SOURCE:
+                // 无缓存、获取网络数据的执行者
                 return new SourceGenerator(decodeHelper, this);
             case FINISHED:
                 return null;
@@ -304,12 +290,14 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
     }
 
     private void runGenerators() {
-        currentThread = Thread.currentThread();
-        startFetchTime = LogTime.getLogTime();
         boolean isStarted = false;
-
         /**
+         *
+         * 如果getNextGenerator（）返回SourceGenerator类，那么需要请求网络了
          * 开始网络请求图片
+         *
+         *
+         * 调用DataFetcherGenerator的startNext方法执行请求，这里有可能是磁盘或者网络
          */
         while (!isCancelled && currentGenerator != null && !(isStarted = currentGenerator.startNext())) {
             stage = getNextStage(stage);
@@ -321,13 +309,9 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
                 return;
             }
         }
-        // We've run out of stages and generators, give up.
         if ((stage == Stage.FINISHED || isCancelled) && !isStarted) {
             notifyFailed();
         }
-
-        // Otherwise a generator started a new load and we expect to be called back in
-        // onDataFetcherReady.
     }
 
     private void notifyFailed() {
@@ -718,10 +702,13 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
      */
     private enum RunReason {
         /**
+         * 第一次提交
          * The first time we've been submitted.
          */
         INITIALIZE,
         /**
+         * 我们希望从磁盘缓存服务切换到源执行程序
+         * <p>
          * We want to switch from the disk cache service to the source executor.
          */
         SWITCH_TO_SOURCE_SERVICE,

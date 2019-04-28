@@ -11,6 +11,9 @@ public abstract class DiskCacheStrategy {
   /**
    * Caches remote data with both {@link #DATA} and {@link #RESOURCE}, and local data with
    * {@link #RESOURCE} only.
+   *
+   * 表示既缓存原始图片，也缓存转换过后的图片
+   *
    */
   public static final DiskCacheStrategy ALL = new DiskCacheStrategy() {
     @Override
@@ -37,6 +40,8 @@ public abstract class DiskCacheStrategy {
 
   /**
    * Saves no data to cache.
+   *
+   * 表示不缓存任何内容。
    */
   public static final DiskCacheStrategy NONE = new DiskCacheStrategy() {
     @Override
@@ -63,6 +68,9 @@ public abstract class DiskCacheStrategy {
 
   /**
    * Writes retrieved data directly to the disk cache before it's decoded.
+   *
+   * 表示只缓存原始图片
+   *
    */
   public static final DiskCacheStrategy DATA = new DiskCacheStrategy() {
     @Override
@@ -89,6 +97,9 @@ public abstract class DiskCacheStrategy {
 
   /**
    * Writes resources to disk after they've been decoded.
+   *
+   * 表示只缓存转换过后的图片
+   *
    */
   public static final DiskCacheStrategy RESOURCE = new DiskCacheStrategy() {
     @Override
@@ -114,6 +125,8 @@ public abstract class DiskCacheStrategy {
   };
 
   /**
+   * 表示让Glide根据图片资源智能地选择使用哪一种缓存策略（默认选项）
+   *
    * Tries to intelligently choose a strategy based on the data source of the
    * {@link com.bumptech.glide.load.data.DataFetcher} and the
    * {@link com.bumptech.glide.load.EncodeStrategy} of the

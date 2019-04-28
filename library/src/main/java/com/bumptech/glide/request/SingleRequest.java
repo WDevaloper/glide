@@ -82,8 +82,8 @@ public final class SingleRequest<R> implements Request,
          */
         FAILED,
         /**
-                * Cleared by the user with a placeholder set, may be restarted.
-                */
+         * Cleared by the user with a placeholder set, may be restarted.
+         */
         CLEARED,
     }
 
@@ -251,24 +251,33 @@ public final class SingleRequest<R> implements Request,
         // the view size has changed will need to explicitly clear the View or Target before starting
         // the new load.
 
-        //回调target，资源请求已经完成
+        //回调target，资源请求已经完成，比如内存缓存，这些不需要再请求网络的
         if (status == Status.COMPLETE) {
             onResourceReady(resource, DataSource.MEMORY_CACHE);
             return;
         }
 
+
         // Restarts for requests that are neither complete nor running can be treated as new requests
         // and can run again from the beginning.
 
+        /**
+         *
+         *重新启动既没有完成也还没不运行的请求，这些可以被视为新的请求，并且可以从头开始重新运行。
+         */
         status = Status.WAITING_FOR_SIZE;
         if (Util.isValidDimensions(overrideWidth, overrideHeight)) {
+            //这里面真的是要请求网络了
             onSizeReady(overrideWidth, overrideHeight);
         } else {
             target.getSize(this);
         }
 
-        if ((status == Status.RUNNING || status == Status.WAITING_FOR_SIZE)
-                && canNotifyStatusChanged()) {
+        /**
+         * 回调给target通知请求已经开始
+         *
+         */
+        if ((status == Status.RUNNING || status == Status.WAITING_FOR_SIZE) && canNotifyStatusChanged()) {
             target.onLoadStarted(getPlaceholderDrawable());
         }
         if (IS_VERBOSE_LOGGABLE) {
@@ -429,6 +438,8 @@ public final class SingleRequest<R> implements Request,
         if (status != Status.WAITING_FOR_SIZE) {
             return;
         }
+
+        // 状态表示为运行状态
         status = Status.RUNNING;
 
         float sizeMultiplier = requestOptions.getSizeMultiplier();
@@ -438,6 +449,7 @@ public final class SingleRequest<R> implements Request,
         if (IS_VERBOSE_LOGGABLE) {
             logV("finished setup for calling load in " + LogTime.getElapsedMillis(startTime));
         }
+
         loadStatus =
                 engine.load(
                         glideContext,
@@ -532,7 +544,7 @@ public final class SingleRequest<R> implements Request,
         }
 
         if (!canSetResource()) {
-                releaseResource(resource);
+            releaseResource(resource);
             // We can't put the status to complete before asking canSetResource().
             status = Status.COMPLETE;
             return;
