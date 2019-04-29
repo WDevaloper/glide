@@ -92,6 +92,7 @@ public final class MainActivity extends AppCompatActivity {
       ImgurGlide.with(vh.imageView)
           .load(image.link)
           .into(vh.imageView);
+
     }
 
     @Override
