@@ -82,8 +82,8 @@ public final class SingleRequest<R> implements Request,
          */
         FAILED,
         /**
-                * Cleared by the user with a placeholder set, may be restarted.
-                */
+         * Cleared by the user with a placeholder set, may be restarted.
+         */
         CLEARED,
     }
 
@@ -262,6 +262,7 @@ public final class SingleRequest<R> implements Request,
 
         status = Status.WAITING_FOR_SIZE;
         if (Util.isValidDimensions(overrideWidth, overrideHeight)) {
+            // ImageView的大小已经准备好了，准备加载图片
             onSizeReady(overrideWidth, overrideHeight);
         } else {
             target.getSize(this);
@@ -270,9 +271,6 @@ public final class SingleRequest<R> implements Request,
         if ((status == Status.RUNNING || status == Status.WAITING_FOR_SIZE)
                 && canNotifyStatusChanged()) {
             target.onLoadStarted(getPlaceholderDrawable());
-        }
-        if (IS_VERBOSE_LOGGABLE) {
-            logV("finished run method in " + LogTime.getElapsedMillis(startTime));
         }
     }
 
@@ -423,9 +421,6 @@ public final class SingleRequest<R> implements Request,
     @Override
     public synchronized void onSizeReady(int width, int height) {
         stateVerifier.throwIfRecycled();
-        if (IS_VERBOSE_LOGGABLE) {
-            logV("Got onSizeReady in " + LogTime.getElapsedMillis(startTime));
-        }
         if (status != Status.WAITING_FOR_SIZE) {
             return;
         }
@@ -435,39 +430,28 @@ public final class SingleRequest<R> implements Request,
         this.width = maybeApplySizeMultiplier(width, sizeMultiplier);
         this.height = maybeApplySizeMultiplier(height, sizeMultiplier);
 
-        if (IS_VERBOSE_LOGGABLE) {
-            logV("finished setup for calling load in " + LogTime.getElapsedMillis(startTime));
-        }
-        loadStatus =
-                engine.load(
-                        glideContext,
-                        model,
-                        requestOptions.getSignature(),
-                        this.width,
-                        this.height,
-                        requestOptions.getResourceClass(),
-                        transcodeClass,
-                        priority,
-                        requestOptions.getDiskCacheStrategy(),
-                        requestOptions.getTransformations(),
-                        requestOptions.isTransformationRequired(),
-                        requestOptions.isScaleOnlyOrNoTransform(),
-                        requestOptions.getOptions(),
-                        requestOptions.isMemoryCacheable(),
-                        requestOptions.getUseUnlimitedSourceGeneratorsPool(),
-                        requestOptions.getUseAnimationPool(),
-                        requestOptions.getOnlyRetrieveFromCache(),
-                        this,
-                        callbackExecutor);
+        loadStatus = engine.load(
+                glideContext, model, requestOptions.getSignature(),
+                this.width, this.height,
+                requestOptions.getResourceClass(),
+                transcodeClass, priority,
+                requestOptions.getDiskCacheStrategy(),
+                requestOptions.getTransformations(),
+                requestOptions.isTransformationRequired(),
+                requestOptions.isScaleOnlyOrNoTransform(),
+                requestOptions.getOptions(),
+                requestOptions.isMemoryCacheable(),
+                requestOptions.getUseUnlimitedSourceGeneratorsPool(),
+                requestOptions.getUseAnimationPool(),
+                requestOptions.getOnlyRetrieveFromCache(),
+                /*ResourceCallback*/this,
+                callbackExecutor);
 
         // This is a hack that's only useful for testing right now where loads complete synchronously
         // even though under any executor running on any thread but the main thread, the load would
         // have completed asynchronously.
         if (status != Status.RUNNING) {
             loadStatus = null;
-        }
-        if (IS_VERBOSE_LOGGABLE) {
-            logV("finished onSizeReady in " + LogTime.getElapsedMillis(startTime));
         }
     }
 
@@ -532,7 +516,7 @@ public final class SingleRequest<R> implements Request,
         }
 
         if (!canSetResource()) {
-                releaseResource(resource);
+            releaseResource(resource);
             // We can't put the status to complete before asking canSetResource().
             status = Status.COMPLETE;
             return;

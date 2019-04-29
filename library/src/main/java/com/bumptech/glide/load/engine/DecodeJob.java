@@ -222,10 +222,6 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
     @SuppressWarnings("PMD.AvoidRethrowingException")
     @Override
     public void run() {
-        // This should be much more fine grained, but since Java's thread pool implementation silently
-        // swallows all otherwise fatal exceptions, this will at least make it obvious to developers
-        // that something is failing.
-        GlideTrace.beginSectionFormat("DecodeJob#run(model=%s)", model);
         // Methods in the try statement can invalidate currentFetcher, so set a local variable here to
         // ensure that the fetcher is cleaned up either way.
         DataFetcher<?> localFetcher = currentFetcher;
@@ -236,21 +232,8 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback,
             }
             runWrapped();
         } catch (CallbackException e) {
-            // If a callback not controlled by Glide throws an exception, we should avoid the Glide
-            // specific debug logic below.
             throw e;
         } catch (Throwable t) {
-            // Catch Throwable and not Exception to handle OOMs. Throwables are swallowed by our
-            // usage of .submit() in GlideExecutor so we're not silently hiding crashes by doing this. We
-            // are however ensuring that our callbacks are always notified when a load fails. Without this
-            // notification, uncaught throwables never notify the corresponding callbacks, which can cause
-            // loads to silently hang forever, a case that's especially bad for users using Futures on
-            // background threads.
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "DecodeJob threw unexpectedly"
-                        + ", isCancelled: " + isCancelled
-                        + ", stage: " + stage, t);
-            }
             // When we're encoding we've already notified our callback and it isn't safe to do so again.
             if (stage != Stage.ENCODE) {
                 throwables.add(t);

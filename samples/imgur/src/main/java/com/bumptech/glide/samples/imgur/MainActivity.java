@@ -12,12 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.samples.imgur.api.Image;
+
 import dagger.android.AndroidInjection;
+
 import java.util.Collections;
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,88 +34,95 @@ import rx.schedulers.Schedulers;
  */
 public final class MainActivity extends AppCompatActivity {
 
-  @Inject @Named("hotViralImages") Observable<List<Image>> fetchImagesObservable;
-  private ImgurImageAdapter adapter;
+    @Inject
+    @Named("hotViralImages")
+    Observable<List<Image>> fetchImagesObservable;
+    private ImgurImageAdapter adapter;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    AndroidInjection.inject(this);
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+//    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//
+//    recyclerView.setHasFixedSize(true);
+//    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//    recyclerView.setLayoutManager(layoutManager);
+//    adapter = new ImgurImageAdapter();
+//    recyclerView.setAdapter(adapter);
+//
+//    fetchImagesObservable
+//        .subscribeOn(Schedulers.newThread())
+//        .observeOn(AndroidSchedulers.mainThread())
+//        .subscribe(new Observer<List<Image>>() {
+//          @Override
+//          public void onCompleted() { }
+//
+//          @Override
+//          public void onError(Throwable e) { }
+//
+//          @Override
+//          public void onNext(List<Image> images) {
+//            adapter.setData(images);
+//          }
+//        });
 
-    recyclerView.setHasFixedSize(true);
-    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-    recyclerView.setLayoutManager(layoutManager);
-    adapter = new ImgurImageAdapter();
-    recyclerView.setAdapter(adapter);
 
-    fetchImagesObservable
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Observer<List<Image>>() {
-          @Override
-          public void onCompleted() { }
-
-          @Override
-          public void onError(Throwable e) { }
-
-          @Override
-          public void onNext(List<Image> images) {
-            adapter.setData(images);
-          }
-        });
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    fetchImagesObservable.unsubscribeOn(AndroidSchedulers.mainThread());
-  }
-
-  private final class ImgurImageAdapter extends RecyclerView.Adapter<ViewHolder> {
-
-    private List<Image> images = Collections.emptyList();
-
-    public void setData(@NonNull List<Image> images) {
-      this.images = images;
-      notifyDataSetChanged();
+        ImageView iv = findViewById(R.id.mIv);
+        Glide.with(this).load("http://118.31.36.55/staticD:/opt/uploadimg/20190424123932208.jpg")
+                .into(iv);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      return new ViewHolder(LayoutInflater.from(parent.getContext())
-          .inflate(R.layout.image_card, parent, false));
+    protected void onDestroy() {
+        super.onDestroy();
+        fetchImagesObservable.unsubscribeOn(AndroidSchedulers.mainThread());
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-      ViewHolder vh = (ViewHolder) holder;
-      Image image = images.get(position);
-      vh.title.setText(
-          TextUtils.isEmpty(image.title) ? image.description : image.title);
+    private final class ImgurImageAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-      ImgurGlide.with(vh.imageView)
-          .load(image.link)
-          .into(vh.imageView);
+        private List<Image> images = Collections.emptyList();
 
+        public void setData(@NonNull List<Image> images) {
+            this.images = images;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.image_card, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            ViewHolder vh = (ViewHolder) holder;
+            Image image = images.get(position);
+            vh.title.setText(
+                    TextUtils.isEmpty(image.title) ? image.description : image.title);
+
+            ImgurGlide.with(vh.imageView)
+                    .load(image.link)
+                    .into(vh.imageView);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return images.size();
+        }
+
+        private final class ViewHolder extends RecyclerView.ViewHolder {
+
+            private final ImageView imageView;
+            private final TextView title;
+
+            ViewHolder(View itemView) {
+                super(itemView);
+                imageView = (ImageView) itemView.findViewById(R.id.image);
+                title = (TextView) itemView.findViewById(R.id.title);
+            }
+        }
     }
-
-    @Override
-    public int getItemCount() {
-      return images.size();
-    }
-
-    private final class ViewHolder extends RecyclerView.ViewHolder {
-
-      private final ImageView imageView;
-      private final TextView title;
-
-      ViewHolder(View itemView) {
-        super(itemView);
-        imageView = (ImageView) itemView.findViewById(R.id.image);
-        title = (TextView) itemView.findViewById(R.id.title);
-      }
-    }
-  }
 }

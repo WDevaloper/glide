@@ -625,7 +625,9 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
     }
 
     private <Y extends Target<TranscodeType>> Y into(@NonNull Y target, @Nullable RequestListener<TranscodeType> targetListener, BaseRequestOptions<?> options, Executor callbackExecutor) {
+
         Preconditions.checkNotNull(target);
+
         if (!isModelSet) {
             throw new IllegalArgumentException("You must call #load() before calling #into()");
         }
@@ -635,7 +637,7 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
         Request request = buildRequest(target, targetListener, options, callbackExecutor);
         Request previous = target.getRequest();
 
-        //上一个请求的处理
+        //判断是否需要处理上一个请求的处理
         if (request.isEquivalentTo(previous) && !isSkipMemoryCacheWithCompletePreviousRequest(options, previous)) {
             request.recycle();
             // If the request is completed, beginning again will ensure the result is re-delivered,
@@ -651,9 +653,11 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
             return target;
         }
 
+        //将请求和target解绑
         requestManager.clear(target);
+        // 重新为target设置request
         target.setRequest(request);
-        // 真正开始请i去的地方
+        // 追踪请求
         requestManager.track(target, request);
         return target;
     }
@@ -684,9 +688,8 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
         Preconditions.checkNotNull(view);
 
         BaseRequestOptions<?> requestOptions = this;
-        if (!requestOptions.isTransformationSet()
-                && requestOptions.isTransformationAllowed()
-                && view.getScaleType() != null) {
+
+        if (!requestOptions.isTransformationSet() && requestOptions.isTransformationAllowed() && view.getScaleType() != null) {
             // Clone in this method so that if we use this RequestBuilder to load into a View and then
             // into a different target, we don't retain the transformation applied based on the previous
             // View's scale type.
@@ -712,11 +715,11 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
             }
         }
 
-        return into(
-                glideContext.buildImageViewTarget(view, transcodeClass),
+        return into(/*build ImageViewTarget*/glideContext.buildImageViewTarget(view, transcodeClass),
                 /*targetListener=*/ null,
-                requestOptions,
-                Executors.mainThreadExecutor());
+                /*RequestOptions*/ requestOptions,
+                Executors.mainThreadExecutor()
+        );
     }
 
     /**
