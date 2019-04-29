@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../annotation/annotation.iml" filepath="$PROJECT_DIR$/../../annotation/annotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../annotation/compiler/compiler.iml" filepath="$PROJECT_DIR$/../../annotation/compiler/compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../annotation/compiler/test/compiler-test.iml" filepath="$PROJECT_DIR$/../../annotation/compiler/test/compiler-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../contacturi/contacturi.iml" filepath="$PROJECT_DIR$/../contacturi/contacturi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../third_party/disklrucache/disklrucache.iml" filepath="$PROJECT_DIR$/../../third_party/disklrucache/disklrucache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../library/findbugs/findbugs.iml" filepath="$PROJECT_DIR$/../../library/findbugs/findbugs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../flickr/flickr.iml" filepath="$PROJECT_DIR$/../flickr/flickr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gallery/gallery.iml" filepath="$PROJECT_DIR$/../gallery/gallery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../third_party/gif_decoder/gif_decoder.iml" filepath="$PROJECT_DIR$/../../third_party/gif_decoder/gif_decoder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../integration/gifencoder/gifencoder.iml" filepath="$PROJECT_DIR$/../../integration/gifencoder/gifencoder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/giphy.iml" filepath="$PROJECT_DIR$/giphy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../glide/glide.iml" filepath="$PROJECT_DIR$/../../glide/glide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../glide-parent.iml" filepath="$PROJECT_DIR$/../../glide-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../imgur/imgur.iml" filepath="$PROJECT_DIR$/../imgur/imgur.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../instrumentation/instrumentation.iml" filepath="$PROJECT_DIR$/../../instrumentation/instrumentation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../integration/integration.iml" filepath="$PROJECT_DIR$/../../integration/integration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../library/library.iml" filepath="$PROJECT_DIR$/../../library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../library/test/library-test.iml" filepath="$PROJECT_DIR$/../../library/test/library-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../integration/okhttp/okhttp.iml" filepath="$PROJECT_DIR$/../../integration/okhttp/okhttp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../integration/okhttp3/okhttp3.iml" filepath="$PROJECT_DIR$/../../integration/okhttp3/okhttp3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../library/pmd/pmd.iml" filepath="$PROJECT_DIR$/../../library/pmd/pmd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../integration/recyclerview/recyclerview.iml" filepath="$PROJECT_DIR$/../../integration/recyclerview/recyclerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../samples.iml" filepath="$PROJECT_DIR$/../samples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../svg/svg.iml" filepath="$PROJECT_DIR$/../svg/svg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../testutil/testutil.iml" filepath="$PROJECT_DIR$/../../testutil/testutil.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../third_party/third_party.iml" filepath="$PROJECT_DIR$/../../third_party/third_party.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../integration/volley/volley.iml" filepath="$PROJECT_DIR$/../../integration/volley/volley.iml" />
+    </modules>
+  </component>
+</project>

@@ -20,6 +20,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 通过添加和删除负载的回调来管理负载的类，并在加载完成时通知回调。
+ *
  * A class that manages a load by adding and removing callbacks for for the load and notifying
  * callbacks when the load completes.
  */
@@ -133,9 +135,9 @@ class EngineJob<R> implements DecodeJob.Callback<R>,
   }
 
   synchronized void addCallback(final ResourceCallback cb, Executor callbackExecutor) {
-    stateVerifier.throwIfRecycled();
+
     cbs.add(cb, callbackExecutor);
-    if (hasResource) {
+    if (hasResource) { stateVerifier.throwIfRecycled();
       // Acquire early so that the resource isn't recycled while the Runnable below is still sitting
       // in the executors queue.
       incrementPendingCallbacks(1);

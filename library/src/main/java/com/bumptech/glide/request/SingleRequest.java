@@ -251,15 +251,20 @@ public final class SingleRequest<R> implements Request,
         // the view size has changed will need to explicitly clear the View or Target before starting
         // the new load.
 
-        //回调target，资源请求已经完成
+        //回调target，资源请求已经完成，比如内存缓存，这些不需要再请求网络的
         if (status == Status.COMPLETE) {
             onResourceReady(resource, DataSource.MEMORY_CACHE);
             return;
         }
 
+
         // Restarts for requests that are neither complete nor running can be treated as new requests
         // and can run again from the beginning.
 
+        /**
+         *
+         *重新启动既没有完成也还没不运行的请求，这些可以被视为新的请求，并且可以从头开始重新运行。
+         */
         status = Status.WAITING_FOR_SIZE;
         if (Util.isValidDimensions(overrideWidth, overrideHeight)) {
             // ImageView的大小已经准备好了，准备加载图片
@@ -268,8 +273,11 @@ public final class SingleRequest<R> implements Request,
             target.getSize(this);
         }
 
-        if ((status == Status.RUNNING || status == Status.WAITING_FOR_SIZE)
-                && canNotifyStatusChanged()) {
+        /**
+         * 回调给target通知请求已经开始
+         *
+         */
+        if ((status == Status.RUNNING || status == Status.WAITING_FOR_SIZE) && canNotifyStatusChanged()) {
             target.onLoadStarted(getPlaceholderDrawable());
         }
     }
@@ -424,28 +432,38 @@ public final class SingleRequest<R> implements Request,
         if (status != Status.WAITING_FOR_SIZE) {
             return;
         }
+
+        // 状态表示为运行状态
         status = Status.RUNNING;
 
         float sizeMultiplier = requestOptions.getSizeMultiplier();
         this.width = maybeApplySizeMultiplier(width, sizeMultiplier);
         this.height = maybeApplySizeMultiplier(height, sizeMultiplier);
+        if (IS_VERBOSE_LOGGABLE) {
+            logV("finished setup for calling load in " + LogTime.getElapsedMillis(startTime));
+        }
 
-        loadStatus = engine.load(
-                glideContext, model, requestOptions.getSignature(),
-                this.width, this.height,
-                requestOptions.getResourceClass(),
-                transcodeClass, priority,
-                requestOptions.getDiskCacheStrategy(),
-                requestOptions.getTransformations(),
-                requestOptions.isTransformationRequired(),
-                requestOptions.isScaleOnlyOrNoTransform(),
-                requestOptions.getOptions(),
-                requestOptions.isMemoryCacheable(),
-                requestOptions.getUseUnlimitedSourceGeneratorsPool(),
-                requestOptions.getUseAnimationPool(),
-                requestOptions.getOnlyRetrieveFromCache(),
-                /*ResourceCallback*/this,
-                callbackExecutor);
+        loadStatus =
+                engine.load(
+                        glideContext,
+                        model,
+                        requestOptions.getSignature(),
+                        this.width,
+                        this.height,
+                        requestOptions.getResourceClass(),
+                        transcodeClass,
+                        priority,
+                        requestOptions.getDiskCacheStrategy(),
+                        requestOptions.getTransformations(),
+                        requestOptions.isTransformationRequired(),
+                        requestOptions.isScaleOnlyOrNoTransform(),
+                        requestOptions.getOptions(),
+                        requestOptions.isMemoryCacheable(),
+                        requestOptions.getUseUnlimitedSourceGeneratorsPool(),
+                        requestOptions.getUseAnimationPool(),
+                        requestOptions.getOnlyRetrieveFromCache(),
+                        this,
+                        callbackExecutor);
 
         // This is a hack that's only useful for testing right now where loads complete synchronously
         // even though under any executor running on any thread but the main thread, the load would

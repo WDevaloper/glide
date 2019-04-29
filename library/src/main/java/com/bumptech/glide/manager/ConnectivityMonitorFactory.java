@@ -10,7 +10,5 @@ import android.support.annotation.NonNull;
 public interface ConnectivityMonitorFactory {
 
   @NonNull
-  ConnectivityMonitor build(
-      @NonNull Context context,
-      @NonNull ConnectivityMonitor.ConnectivityListener listener);
+  ConnectivityMonitor build(@NonNull Context context, @NonNull ConnectivityMonitor.ConnectivityListener listener);
 }

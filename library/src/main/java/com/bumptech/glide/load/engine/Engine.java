@@ -151,10 +151,6 @@ public class Engine implements EngineJobListener,
      * 开始新的加载
      * <li>Start a new load.
      * </ul>
-     *
-     *
-     *
-     *
      * <p>Active resources are those that have been provided to at least one request and have not yet
      * been released. Once all consumers of a resource have released that resource, the resource then
      * goes to cache. If the resource is ever returned to a new consumer from cache, it is re-added to
@@ -193,7 +189,6 @@ public class Engine implements EngineJobListener,
             cb.onResourceReady(active, DataSource.MEMORY_CACHE);
             return null;
         }
-
         // 检查当前内存缓存
         EngineResource<?> cached = loadFromCache(key, isMemoryCacheable);
         if (cached != null) {

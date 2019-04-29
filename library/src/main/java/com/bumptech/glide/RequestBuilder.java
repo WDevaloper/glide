@@ -1,9 +1,5 @@
 package com.bumptech.glide;
 
-import static com.bumptech.glide.request.RequestOptions.diskCacheStrategyOf;
-import static com.bumptech.glide.request.RequestOptions.signatureOf;
-import static com.bumptech.glide.request.RequestOptions.skipMemoryCacheOf;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -42,6 +38,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import static com.bumptech.glide.request.RequestOptions.diskCacheStrategyOf;
+import static com.bumptech.glide.request.RequestOptions.signatureOf;
+import static com.bumptech.glide.request.RequestOptions.skipMemoryCacheOf;
 
 /**
  * A generic class that can handle setting options and staring loads for generic resource types.
@@ -627,17 +627,19 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
     private <Y extends Target<TranscodeType>> Y into(@NonNull Y target, @Nullable RequestListener<TranscodeType> targetListener, BaseRequestOptions<?> options, Executor callbackExecutor) {
 
         Preconditions.checkNotNull(target);
-
+        /**
+         * 如果不先调用load就抛这个异常
+         */
         if (!isModelSet) {
             throw new IllegalArgumentException("You must call #load() before calling #into()");
         }
 
 
-        //构建请求
+        //构建请求会返回一个SingleRequest
         Request request = buildRequest(target, targetListener, options, callbackExecutor);
         Request previous = target.getRequest();
 
-        //判断是否需要处理上一个请求的处理
+        //上一个请求的处理，就是上一个请求由于某种原因暂停请求
         if (request.isEquivalentTo(previous) && !isSkipMemoryCacheWithCompletePreviousRequest(options, previous)) {
             request.recycle();
             // If the request is completed, beginning again will ensure the result is re-delivered,
@@ -902,6 +904,10 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
             parentCoordinator = errorRequestCoordinator;
         }
 
+        /**
+         * 构造主请求
+         *
+         */
         Request mainRequest =
                 buildThumbnailRequestRecursive(
                         target,

@@ -126,7 +126,8 @@ public class RequestManagerRetriever implements Handler.Callback {
 
 
     /**
-     * 其实很好理解，后台工作线程会使用的是顶级RequestManager，因为后台线程需要工作时间长，其他组件的生命周期还是很短暂的
+     * 其实很好理解，后台工作线程会使用的是顶级RequestManager，因为后台线程需要工作时间长，
+     * 其他组件的生命周期还是很短暂的
      *
      * @param context
      * @return
@@ -486,8 +487,9 @@ public class RequestManagerRetriever implements Handler.Callback {
             Glide glide = Glide.get(context);
 
             //创建RequestManager
-            requestManager = factory.build(glide,//生命周期的回调
-                    current.getGlideLifecycle(), current.getRequestManagerTreeNode(), context);
+            requestManager = factory.build(glide,
+                    current.getGlideLifecycle(),//生命周期的回调
+                    current.getRequestManagerTreeNode(), context);
 
             //并保存到Fragment中
             current.setRequestManager(requestManager);
