@@ -874,6 +874,8 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
             @Nullable RequestListener<TranscodeType> targetListener,
             BaseRequestOptions<?> requestOptions,
             Executor callbackExecutor) {
+
+
         return buildRequestRecursive(
                 target,
                 targetListener,
@@ -957,6 +959,8 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
             int overrideHeight,
             BaseRequestOptions<?> requestOptions,
             Executor callbackExecutor) {
+
+
         if (thumbnailBuilder != null) {//缩略图处理
             // Recursive case: contains a potentially recursive thumbnail request builder.
             if (isThumbnailBuilt) {
@@ -1069,21 +1073,8 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
             int overrideWidth,
             int overrideHeight,
             Executor callbackExecutor) {
-        return SingleRequest.obtain(
-                context,
-                glideContext,
-                model,
-                transcodeClass,
-                requestOptions,
-                overrideWidth,
-                overrideHeight,
-                priority,
-                target,
-                targetListener,
-                requestListeners,
-                requestCoordinator,
-                glideContext.getEngine(),
-                transitionOptions.getTransitionFactory(),
-                callbackExecutor);
+        return SingleRequest.obtain(context, glideContext, model, transcodeClass, requestOptions,
+                overrideWidth, overrideHeight, priority, target, targetListener, requestListeners, requestCoordinator,
+                glideContext.getEngine(), transitionOptions.getTransitionFactory(), callbackExecutor);
     }
 }

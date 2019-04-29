@@ -44,7 +44,9 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
         Comparable<DecodeJob<?>>, Poolable {
     private static final String TAG = "DecodeJob";
 
+    // 从Glide注册的register中获取请求model 的加载器
     private final DecodeHelper<R> decodeHelper = new DecodeHelper<>();
+
     private final List<Throwable> throwables = new ArrayList<>();
     private final StateVerifier stateVerifier = StateVerifier.newInstance();
     private final DiskCacheProvider diskCacheProvider;
@@ -102,6 +104,8 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
             Options options,
             Callback<R> callback,
             int order) {
+
+
         decodeHelper.init(
                 glideContext,
                 model,
@@ -117,6 +121,8 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
                 isTransformationRequired,
                 isScaleOnlyOrNoTransform,
                 diskCacheProvider);
+
+
         this.glideContext = glideContext;
         this.signature = signature;
         this.priority = priority;

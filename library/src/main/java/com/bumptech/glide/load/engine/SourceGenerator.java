@@ -75,6 +75,8 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
                 started = true;
 
                 /**
+                 * 从Glide注册的register中获取请求model 的加载器
+                 *
                  *  DataFetcher的loadData()方法的回调时机,请看实现类{@link HttpUrlFetcher}
                  *
                  *  还把回调传进去

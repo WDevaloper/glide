@@ -163,8 +163,12 @@ public class Engine implements EngineJobListener,
      * @param cb     The callback that will be called when the load completes.
      */
     public synchronized <R> LoadStatus load(GlideContext glideContext,
-                                            Object model, Key signature, int width, int height,
-                                            Class<?> resourceClass, Class<R> transcodeClass,
+                                            Object model,
+                                            Key signature,
+                                            int width,
+                                            int height,
+                                            Class<?> resourceClass,
+                                            Class<R> transcodeClass,
                                             Priority priority,
                                             DiskCacheStrategy diskCacheStrategy,
                                             Map<Class<?>, Transformation<?>> transformations,
@@ -213,9 +217,17 @@ public class Engine implements EngineJobListener,
                 useAnimationPool,
                 onlyRetrieveFromCache);
 
+
+
+        //构建DecodeJob 顺便构建DecodeHelper
         DecodeJob<R> decodeJob = decodeJobFactory.build(glideContext,
-                model, key, signature, width, height,
-                resourceClass, transcodeClass, priority,
+                model,
+                key,
+                signature,
+                width,
+                height,
+                resourceClass,
+                transcodeClass, priority,
                 diskCacheStrategy,
                 transformations,
                 isTransformationRequired,
@@ -422,7 +434,10 @@ public class Engine implements EngineJobListener,
                                boolean onlyRetrieveFromCache,
                                Options options,
                                DecodeJob.Callback<R> callback) {
+
+
             DecodeJob<R> result = Preconditions.checkNotNull((DecodeJob<R>) pool.acquire());
+
             return result.init(
                     glideContext,
                     model,
