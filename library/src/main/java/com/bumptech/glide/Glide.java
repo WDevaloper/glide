@@ -171,7 +171,6 @@ public class Glide implements ComponentCallbacks2 {
                 }
             }
         }
-
         return glide;
     }
 
@@ -718,7 +717,8 @@ public class Glide implements ComponentCallbacks2 {
                 "You cannot start a load on a not yet attached View or a Fragment where getActivity() "
                         + "returns null (which usually occurs when getActivity() is called before the Fragment "
                         + "is attached or after the Fragment is destroyed).");
-        return Glide.get(context).getRequestManagerRetriever();
+        Glide glide = Glide.get(context);
+        return glide.getRequestManagerRetriever();
     }
 
     /**

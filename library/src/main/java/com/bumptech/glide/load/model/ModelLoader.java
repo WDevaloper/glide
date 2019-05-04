@@ -6,9 +6,6 @@ import android.support.annotation.Nullable;
 import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.Options;
 import com.bumptech.glide.load.data.DataFetcher;
-import com.bumptech.glide.load.engine.DataCacheGenerator;
-import com.bumptech.glide.load.engine.DecodeHelper;
-import com.bumptech.glide.load.engine.ResourceCacheGenerator;
 import com.bumptech.glide.util.Preconditions;
 
 import java.util.Collections;
@@ -40,7 +37,7 @@ import java.util.List;
 public interface ModelLoader<Model, Data> {
 
     /**
-     * 应该和缓存相关{@link ResourceCacheGenerator}{@link DataCacheGenerator}{@link DecodeHelper}
+     * 应该和缓存相关{@link com.bumptech.glide.load.engine.ResourceCacheGenerator}{@link com.bumptech.glide.load.engine.DataCacheGenerator}{@link com.bumptech.glide.load.engine.DecodeHelper}
      * <p>
      * Contains a set of {@link com.bumptech.glide.load.Key Keys} identifying the source of the load,
      * alternate cache keys pointing to equivalent data, and a

@@ -128,6 +128,8 @@ public class Engine implements EngineJobListener,
     }
 
     /**
+     * 根据参数加载
+     * <p>
      * Starts a load for the given arguments.
      *
      * <p>Must be called on the main thread.
@@ -135,14 +137,20 @@ public class Engine implements EngineJobListener,
      * <p>The flow for any request is as follows:
      *
      * <ul>
+     * 检查当前激活的资源集，返回激活的资源（如果存在），并将任何新的非激活的资源移动到内存缓存中。
      * <li>Check the current set of actively used resources, return the active resource if present,
      * and move any newly inactive resources into the memory cache.
+     * <p>
+     * 检查内存缓存并提供缓存资源（如果存在）。
      * <li>Check the memory cache and provide the cached resource if present.
+     * <p>
+     * 检查当前正在进行的加载集，并将cb添加到正在进行的加载（如果存在）。
      * <li>Check the current set of in progress loads and add the cb to the in progress load if one
      * is present.
+     * <p>
+     * 开始新的加载
      * <li>Start a new load.
      * </ul>
-     *
      * <p>Active resources are those that have been provided to at least one request and have not yet
      * been released. Once all consumers of a resource have released that resource, the resource then
      * goes to cache. If the resource is ever returned to a new consumer from cache, it is re-added to
@@ -154,74 +162,88 @@ public class Engine implements EngineJobListener,
      * @param height The target height in pixels of the desired resource.
      * @param cb     The callback that will be called when the load completes.
      */
-    public synchronized <R> LoadStatus load(
-            GlideContext glideContext,
-            Object model,
-            Key signature,
-            int width,
-            int height,
-            Class<?> resourceClass,
-            Class<R> transcodeClass,
-            Priority priority,
-            DiskCacheStrategy diskCacheStrategy,
-            Map<Class<?>, Transformation<?>> transformations,
-            boolean isTransformationRequired,
-            boolean isScaleOnlyOrNoTransform,
-            Options options,
-            boolean isMemoryCacheable,
-            boolean useUnlimitedSourceExecutorPool,
-            boolean useAnimationPool,
-            boolean onlyRetrieveFromCache,
-            ResourceCallback cb,
-            Executor callbackExecutor) {
+    public synchronized <R> LoadStatus load(GlideContext glideContext,
+                                            Object model,
+                                            Key signature,
+                                            int width,
+                                            int height,
+                                            Class<?> resourceClass,
+                                            Class<R> transcodeClass,
+                                            Priority priority,
+                                            DiskCacheStrategy diskCacheStrategy,
+                                            Map<Class<?>, Transformation<?>> transformations,
+                                            boolean isTransformationRequired,
+                                            boolean isScaleOnlyOrNoTransform,
+                                            Options options,
+                                            boolean isMemoryCacheable,
+                                            boolean useUnlimitedSourceExecutorPool,
+                                            boolean useAnimationPool,
+                                            boolean onlyRetrieveFromCache,
+                                            ResourceCallback cb,
+                                            Executor callbackExecutor) {
 
         long startTime = VERBOSE_IS_LOGGABLE ? LogTime.getLogTime() : 0;
 
 
         // -------------开始检测缓存----------------
-        EngineKey key = keyFactory.buildKey(
-                model,
-                signature,
-                width,
-                height,
-                transformations,
-                resourceClass,
-                transcodeClass,
-                options);
 
+        //使用参数构造缓存Key
+        EngineKey key = keyFactory.buildKey(model, signature, width, height, transformations, resourceClass, transcodeClass, options);
 
-        // 第一级内存缓存,资源是否正在使用
+        // 检查当前激活的资源集合，即：有没有ImageView正在使用该资源
         EngineResource<?> active = loadFromActiveResources(key, isMemoryCacheable);
         if (active != null) {
             cb.onResourceReady(active, DataSource.MEMORY_CACHE);
             return null;
         }
-        // 第二级内存缓存
+        // 检查当前内存缓存
         EngineResource<?> cached = loadFromCache(key, isMemoryCacheable);
         if (cached != null) {
             cb.onResourceReady(cached, DataSource.MEMORY_CACHE);
             return null;
         }
 
-        // 否则开始异步加载，磁盘缓存或者请求额昂罗
+
+        //检查当前正在进行的加载集合，并将cb添加到正在进行的加载（如果存在）。
         EngineJob<?> current = jobs.get(key, onlyRetrieveFromCache);
         if (current != null) {
             current.addCallback(cb, callbackExecutor);
             return new LoadStatus(cb, current);
         }
 
-        EngineJob<R> engineJob = engineJobFactory.build(key, isMemoryCacheable, useUnlimitedSourceExecutorPool, useAnimationPool, onlyRetrieveFromCache);
-        DecodeJob<R> decodeJob = decodeJobFactory.build(glideContext, model, key, signature,
-                width, height, resourceClass, transcodeClass, priority, diskCacheStrategy,
-                transformations, isTransformationRequired, isScaleOnlyOrNoTransform, onlyRetrieveFromCache,
-                options, engineJob);
+
+        // 开始新的加载
+
+        EngineJob<R> engineJob = engineJobFactory.build(key,
+                isMemoryCacheable,
+                useUnlimitedSourceExecutorPool,
+                useAnimationPool,
+                onlyRetrieveFromCache);
+
+
+
+        //构建DecodeJob 顺便构建DecodeHelper
+        DecodeJob<R> decodeJob = decodeJobFactory.build(glideContext,
+                model,
+                key,
+                signature,
+                width,
+                height,
+                resourceClass,
+                transcodeClass, priority,
+                diskCacheStrategy,
+                transformations,
+                isTransformationRequired,
+                isScaleOnlyOrNoTransform,
+                onlyRetrieveFromCache,
+                options,
+                engineJob);
 
         jobs.put(key, engineJob);
 
         engineJob.addCallback(cb, callbackExecutor);
-
-        // 开始执行任务
         engineJob.start(decodeJob);
+
         return new LoadStatus(cb, engineJob);
     }
 
@@ -458,7 +480,10 @@ public class Engine implements EngineJobListener,
                                boolean onlyRetrieveFromCache,
                                Options options,
                                DecodeJob.Callback<R> callback) {
+
+
             DecodeJob<R> result = Preconditions.checkNotNull((DecodeJob<R>) pool.acquire());
+
             return result.init(
                     glideContext,
                     model,

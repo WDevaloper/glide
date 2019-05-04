@@ -631,7 +631,8 @@ public class RequestManager implements LifecycleListener, ModelTypes<RequestBuil
 
     synchronized void track(@NonNull Target<?> target, @NonNull Request request) {
         targetTracker.track(target);
-        requestTracker.runRequest(request);
+        //运行请求
+        requestTracker.runRequest(/*Request*/request);
     }
 
     List<RequestListener<Object>> getDefaultRequestListeners() {

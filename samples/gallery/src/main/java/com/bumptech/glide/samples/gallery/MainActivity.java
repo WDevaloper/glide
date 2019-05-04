@@ -36,8 +36,6 @@ public class MainActivity extends FragmentActivity {
         } else {
             replaceFragment();
         }
-
-        Glide.with(this).load("").into()
     }
 
     private void requestStoragePermission() {

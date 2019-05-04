@@ -60,6 +60,7 @@ final class DecodeHelper<Transcode> {
             boolean isTransformationRequired,
             boolean isScaleOnlyOrNoTransform,
             DiskCacheProvider diskCacheProvider) {
+
         this.glideContext = glideContext;
         this.model = model;
         this.signature = signature;
@@ -204,8 +205,6 @@ final class DecodeHelper<Transcode> {
         if (!isLoadDataSet) {
             isLoadDataSet = true;
             loadData.clear();
-
-
             /**
              * 从Glide注册的register中获取请求model 的加载器
              *

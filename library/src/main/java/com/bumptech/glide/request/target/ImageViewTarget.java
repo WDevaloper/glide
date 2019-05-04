@@ -16,8 +16,7 @@ import com.bumptech.glide.request.transition.Transition;
  */
 // Public API.
 @SuppressWarnings("WeakerAccess")
-public abstract class ImageViewTarget<Z> extends ViewTarget<ImageView, Z>
-    implements Transition.ViewAdapter {
+public abstract class ImageViewTarget<Z> extends ViewTarget<ImageView, Z> implements Transition.ViewAdapter {
 
   @Nullable
   private Animatable animatable;

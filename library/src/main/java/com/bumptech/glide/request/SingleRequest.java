@@ -267,7 +267,7 @@ public final class SingleRequest<R> implements Request,
          */
         status = Status.WAITING_FOR_SIZE;
         if (Util.isValidDimensions(overrideWidth, overrideHeight)) {
-            //这里面真的是要请求网络了
+            // ImageView的大小已经准备好了，准备加载图片
             onSizeReady(overrideWidth, overrideHeight);
         } else {
             target.getSize(this);
@@ -279,9 +279,6 @@ public final class SingleRequest<R> implements Request,
          */
         if ((status == Status.RUNNING || status == Status.WAITING_FOR_SIZE) && canNotifyStatusChanged()) {
             target.onLoadStarted(getPlaceholderDrawable());
-        }
-        if (IS_VERBOSE_LOGGABLE) {
-            logV("finished run method in " + LogTime.getElapsedMillis(startTime));
         }
     }
 
@@ -432,9 +429,6 @@ public final class SingleRequest<R> implements Request,
     @Override
     public synchronized void onSizeReady(int width, int height) {
         stateVerifier.throwIfRecycled();
-        if (IS_VERBOSE_LOGGABLE) {
-            logV("Got onSizeReady in " + LogTime.getElapsedMillis(startTime));
-        }
         if (status != Status.WAITING_FOR_SIZE) {
             return;
         }
@@ -445,7 +439,6 @@ public final class SingleRequest<R> implements Request,
         float sizeMultiplier = requestOptions.getSizeMultiplier();
         this.width = maybeApplySizeMultiplier(width, sizeMultiplier);
         this.height = maybeApplySizeMultiplier(height, sizeMultiplier);
-
         if (IS_VERBOSE_LOGGABLE) {
             logV("finished setup for calling load in " + LogTime.getElapsedMillis(startTime));
         }
@@ -477,9 +470,6 @@ public final class SingleRequest<R> implements Request,
         // have completed asynchronously.
         if (status != Status.RUNNING) {
             loadStatus = null;
-        }
-        if (IS_VERBOSE_LOGGABLE) {
-            logV("finished onSizeReady in " + LogTime.getElapsedMillis(startTime));
         }
     }
 
