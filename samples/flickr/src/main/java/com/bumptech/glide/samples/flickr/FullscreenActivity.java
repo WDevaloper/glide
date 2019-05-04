@@ -1,13 +1,15 @@
 package com.bumptech.glide.samples.flickr;
 
-import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.samples.flickr.api.Photo;
+
+import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
 
 /**
  * A simple activity for viewing a single photo.
@@ -27,7 +29,6 @@ public class FullscreenActivity extends FragmentActivity {
     setContentView(R.layout.fullscreen_activity);
     ImageView fullscreenView = (ImageView) findViewById(R.id.fullscreen_view);
     Photo photo = getIntent().getParcelableExtra(ARG_PHOTO);
-
     GlideApp.with(this).load(photo).apply(fitCenterTransform()).into(fullscreenView);
   }
 }
