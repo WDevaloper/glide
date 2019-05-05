@@ -106,14 +106,14 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcher.DataCallback<
              */
             //编码
             Encoder<Object> encoder = helper.getSourceEncoder(dataToCache);
-            // 写入缓存
+            // 编码写入缓存
             DataCacheWriter<Object> writer = new DataCacheWriter<>(encoder, dataToCache, helper.getOptions());
             // 缓存Key
             originalKey = new DataCacheKey(loadData.sourceKey, helper.getSignature());
             helper.getDiskCache().put(originalKey, writer);
         } finally {
             /**
-             * 就是在做完缓存之后回调，请看实现类{@link HttpUrlFetcher}做资源清理工作
+             * 就是在做完缓存操作之后回调，请看实现类{@link HttpUrlFetcher}做资源清理工作
              *
              * DecodeJob也有调用
              *

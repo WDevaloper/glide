@@ -18,12 +18,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee7fbae3-d3bf-4a41-bbd3-1f4f8ee91e32" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/RequestBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/RequestBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/Engine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/EngineJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/EngineJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/SourceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/SourceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/model/ModelLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/model/ModelLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,8 +46,8 @@
       <file leaf-file-name="RequestManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/RequestManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="634" column="29" lean-forward="true" selection-start-line="634" selection-start-column="29" selection-end-line="634" selection-end-column="29" />
+            <state relative-caret-position="9656">
+              <caret line="634" column="29" selection-start-line="634" selection-start-column="29" selection-end-line="634" selection-end-column="29" />
               <folding>
                 <element signature="e#16106#16107#0" expanded="true" />
                 <element signature="e#16147#16148#0" expanded="true" />
@@ -63,8 +59,8 @@
       <file leaf-file-name="RequestTracker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/manager/RequestTracker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="49" column="24" lean-forward="true" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
+            <state relative-caret-position="629">
+              <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -72,7 +68,7 @@
       <file leaf-file-name="Request.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/request/Request.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="85">
               <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
             </state>
           </provider>
@@ -81,11 +77,8 @@
       <file leaf-file-name="SingleRequest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/request/SingleRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
+            <state relative-caret-position="6902">
               <caret line="446" column="25" selection-start-line="446" selection-start-column="25" selection-end-line="446" selection-end-column="25" />
-              <folding>
-                <element signature="e#5169#5199#1" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -93,11 +86,8 @@
       <file leaf-file-name="Engine.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/Engine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="3349">
               <caret line="222" column="15" selection-start-line="222" selection-start-column="15" selection-end-line="222" selection-end-column="15" />
-              <folding>
-                <element signature="e#15115#15145#1" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -105,7 +95,7 @@
       <file leaf-file-name="DecodeJob.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeJob.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
+            <state relative-caret-position="4437">
               <caret line="289" column="37" selection-start-line="289" selection-start-column="37" selection-end-line="289" selection-end-column="37" />
             </state>
           </provider>
@@ -114,8 +104,8 @@
       <file leaf-file-name="SourceGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/SourceGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="85" column="30" lean-forward="true" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
+            <state relative-caret-position="1275">
+              <caret line="85" column="30" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -123,8 +113,8 @@
       <file leaf-file-name="ModelLoader.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/model/ModelLoader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="51" column="47" lean-forward="true" selection-start-line="51" selection-start-column="47" selection-end-line="51" selection-end-column="47" />
+            <state relative-caret-position="782">
+              <caret line="57" column="82" selection-start-line="57" selection-start-column="82" selection-end-line="57" selection-end-column="82" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -135,11 +125,8 @@
       <file leaf-file-name="DecodeHelper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="68">
               <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
-              <folding>
-                <element signature="e#4481#4511#1" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -147,7 +134,7 @@
       <file leaf-file-name="RequestTrackerTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/test/src/test/java/com/bumptech/glide/manager/RequestTrackerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
+            <state relative-caret-position="6273">
               <caret line="384" column="29" selection-start-line="384" selection-start-column="29" selection-end-line="384" selection-end-column="29" />
             </state>
           </provider>
@@ -15981,7 +15968,6 @@
         <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/model/stream/BaseGlideUrlLoader.java" />
         <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/data/HttpUrlFetcher.java" />
         <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/data/DataFetcher.java" />
-        <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/model/ModelLoader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bumptech/glide/samples/gallery/MainActivity.java" />
         <option value="$PROJECT_DIR$/../imgur/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/../imgur/src/main/java/com/bumptech/glide/samples/imgur/MainActivity.java" />
@@ -15999,6 +15985,7 @@
         <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeHelper.java" />
         <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeJob.java" />
         <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/Engine.java" />
+        <option value="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/model/ModelLoader.java" />
       </list>
     </option>
   </component>
@@ -16012,46 +15999,12 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
-            <path>
-              <item name="gallery" type="1abcf292:AndroidViewProjectNode" />
-              <item name="imgur" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="gallery" type="1abcf292:AndroidViewProjectNode" />
-              <item name="imgur" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="gallery" type="1abcf292:AndroidViewProjectNode" />
-              <item name="imgur" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="imgur" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gallery" type="1abcf292:AndroidViewProjectNode" />
-              <item name="library" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="gallery" type="1abcf292:AndroidViewProjectNode" />
-              <item name="library" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="gallery" type="1abcf292:AndroidViewProjectNode" />
-              <item name="library" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="glide" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gallery" type="1abcf292:AndroidViewProjectNode" />
-              <item name="library" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="glide" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="manager" type="462c0819:PsiDirectoryNode" />
-            </path>
             <path>
               <item name="gallery" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
@@ -16060,9 +16013,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -16562,14 +16512,13 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="Android Profiler" order="7" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
       <window_info id="Build Variants" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32897604" />
       <window_info anchor="right" id="Flutter Outline" order="3" weight="0.32995737" />
       <window_info anchor="bottom" id="Logcat" order="7" weight="0.67429197" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" anchor="right" content_ui="combo" id="Hierarchy" order="2" visible="true" weight="0.21748401" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.3278867" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
@@ -16579,7 +16528,6 @@
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Flutter Performance" order="7" side_tool="true" />
-      <window_info anchor="right" id="Preview" order="3" weight="0.32995737" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
@@ -16590,11 +16538,13 @@
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" id="Flutter Inspector" order="3" />
+      <window_info anchor="right" id="Preview" order="3" weight="0.32995737" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info active="true" anchor="right" content_ui="combo" id="Hierarchy" order="2" visible="true" weight="0.21748401" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
     </layout>
   </component>
@@ -16724,10 +16674,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="773">
           <caret line="124" column="32" selection-start-line="124" selection-start-column="27" selection-end-line="124" selection-end-column="32" />
-          <folding>
-            <element signature="e#2870#2871#0" expanded="true" />
-            <element signature="e#2919#2920#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -16742,21 +16688,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="314">
           <caret line="51" column="19" lean-forward="true" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
-          <folding>
-            <element signature="e#1396#1397#0" expanded="true" />
-            <element signature="e#1431#1432#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../imgur/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/request/RequestOptions.java">
@@ -16805,12 +16747,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="11" column="10" lean-forward="true" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
-          <folding>
-            <element signature="e#436#437#0" expanded="true" />
-            <element signature="e#457#458#0" expanded="true" />
-            <element signature="e#976#977#0" expanded="true" />
-            <element signature="e#1015#1016#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -16846,12 +16782,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
-          <folding>
-            <element signature="e#775#909#0" expanded="true" />
-            <element signature="e#908#909#0" expanded="true" />
-            <element signature="e#1004#1005#0" expanded="true" />
-            <element signature="e#1041#1042#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -16859,12 +16789,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-          <folding>
-            <element signature="e#643#644#0" expanded="true" />
-            <element signature="e#672#673#0" expanded="true" />
-            <element signature="e#1263#1264#0" expanded="true" />
-            <element signature="e#1288#1289#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -16893,14 +16817,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="143" column="26" lean-forward="true" selection-start-line="143" selection-start-column="26" selection-end-line="143" selection-end-column="26" />
-          <folding>
-            <element signature="e#7059#7060#0" expanded="true" />
-            <element signature="e#7103#7104#0" expanded="true" />
-            <element signature="e#7607#7608#0" expanded="true" />
-            <element signature="e#7641#7642#0" expanded="true" />
-            <element signature="e#7673#7674#0" expanded="true" />
-            <element signature="e#7739#7740#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -16934,8 +16850,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/RequestManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="634" column="29" lean-forward="true" selection-start-line="634" selection-start-column="29" selection-end-line="634" selection-end-column="29" />
+        <state relative-caret-position="9656">
+          <caret line="634" column="29" selection-start-line="634" selection-start-column="29" selection-end-line="634" selection-end-column="29" />
           <folding>
             <element signature="e#16106#16107#0" expanded="true" />
             <element signature="e#16147#16148#0" expanded="true" />
@@ -16945,73 +16861,64 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/manager/RequestTracker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="49" column="24" lean-forward="true" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
+        <state relative-caret-position="629">
+          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/request/Request.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="85">
           <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/request/SingleRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
+        <state relative-caret-position="6902">
           <caret line="446" column="25" selection-start-line="446" selection-start-column="25" selection-end-line="446" selection-end-column="25" />
-          <folding>
-            <element signature="e#5169#5199#1" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/test/src/test/java/com/bumptech/glide/manager/RequestTrackerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
+        <state relative-caret-position="6273">
           <caret line="384" column="29" selection-start-line="384" selection-start-column="29" selection-end-line="384" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="68">
           <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
-          <folding>
-            <element signature="e#4481#4511#1" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/Engine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="3349">
           <caret line="222" column="15" selection-start-line="222" selection-start-column="15" selection-end-line="222" selection-end-column="15" />
-          <folding>
-            <element signature="e#15115#15145#1" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeJob.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
+        <state relative-caret-position="4437">
           <caret line="289" column="37" selection-start-line="289" selection-start-column="37" selection-end-line="289" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/SourceGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="85" column="30" lean-forward="true" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
+        <state relative-caret-position="1275">
+          <caret line="85" column="30" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/model/ModelLoader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="51" column="47" lean-forward="true" selection-start-line="51" selection-start-column="47" selection-end-line="51" selection-end-column="47" />
+        <state relative-caret-position="782">
+          <caret line="57" column="82" selection-start-line="57" selection-start-column="82" selection-end-line="57" selection-end-column="82" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
