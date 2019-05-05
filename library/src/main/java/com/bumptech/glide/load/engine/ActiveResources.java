@@ -25,9 +25,13 @@ final class ActiveResources {
     // 监控GC回收资源线程池
     private final Executor monitorClearedResourcesExecutor;
 
+
+    //使用强引用存储ResourceWeakReference
     @VisibleForTesting
     final Map<Key, ResourceWeakReference> activeEngineResources = new HashMap<>();
 
+
+    //引用队列与ResourceWeakReference配合监听GC回收
     private final ReferenceQueue<EngineResource<?>> resourceReferenceQueue = new ReferenceQueue<>();
 
     private ResourceListener listener;
@@ -39,6 +43,7 @@ final class ActiveResources {
     ActiveResources(boolean isActiveResourceRetentionAllowed) {
         this(
                 isActiveResourceRetentionAllowed,
+                //启动监控线程
                 java.util.concurrent.Executors.newSingleThreadExecutor(
                         new ThreadFactory() {
                             @Override
@@ -62,7 +67,7 @@ final class ActiveResources {
         this.monitorClearedResourcesExecutor = monitorClearedResourcesExecutor;
 
         monitorClearedResourcesExecutor.execute(
-                new Runnable() {
+                new Runnable {
                     @Override
                     public void run() {
                         cleanReferenceQueue();
@@ -95,6 +100,11 @@ final class ActiveResources {
         }
     }
 
+    /**
+     * 移除指定Key的缓存
+     *
+     * @param key
+     */
     synchronized void deactivate(Key key) {
         ResourceWeakReference removed = activeEngineResources.remove(key);
         if (removed != null) {
@@ -102,6 +112,13 @@ final class ActiveResources {
         }
     }
 
+
+    /**
+     * 通过Key获取缓存
+     *
+     * @param key
+     * @return
+     */
     @Nullable
     synchronized EngineResource<?> get(Key key) {
         ResourceWeakReference activeRef = activeEngineResources.get(key);
@@ -123,21 +140,21 @@ final class ActiveResources {
         // but reverse that order in this one particular test. This is definitely a bit of a hack...
         synchronized (listener) {
             synchronized (this) {
+                //将Reference移除HashMap强引用
                 activeEngineResources.remove(ref.key);
 
                 if (!ref.isCacheable || ref.resource == null) {
                     return;
                 }
 
-                EngineResource<?> newResource =
-                        new EngineResource<>(
-                                ref.resource,
-                                /*isMemoryCacheable=*/ true,
-                                /*isRecyclable=*/ false,
-                                ref.key,
-                                listener);
+                //重新构建新的资源
+                EngineResource<?> newResource = new EngineResource<>(ref.resource,
+                        /*isMemoryCacheable=*/ true,
+                        /*isRecyclable=*/ false,
+                        ref.key,
+                        listener);
 
-                // 如果资源被回收，有可能会被再次加入LruCache内存缓存中
+                // 如果资源被回收，有可能会回调Engine资源会被再次加入LruCache内存缓存中
                 listener.onResourceReleased(ref.key, newResource);
             }
         }
@@ -148,15 +165,15 @@ final class ActiveResources {
     void cleanReferenceQueue() {
         while (!isShutdown) {
             try {
+                //remove会阻塞当前线程，知道GC回收，将ResourceWeakReference放入队列
                 ResourceWeakReference ref = (ResourceWeakReference) resourceReferenceQueue.remove();
                 cleanupActiveReference(ref);
 
-                // This section for testing only.
+                // 这行代码仅仅是测试用的
                 DequeuedResourceCallback current = cb;
                 if (current != null) {
                     current.onResourceDequeued();
                 }
-                // End for testing only.
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -198,19 +215,18 @@ final class ActiveResources {
 
         @Synthetic
         @SuppressWarnings("WeakerAccess")
-        ResourceWeakReference(
-                @NonNull Key key,
-                @NonNull EngineResource<?> referent,
-                @NonNull ReferenceQueue<? super EngineResource<?>> queue,
-                boolean isActiveResourceRetentionAllowed) {
+        ResourceWeakReference(@NonNull Key key, @NonNull EngineResource<?> referent, @NonNull ReferenceQueue<? super EngineResource<?>> queue, boolean isActiveResourceRetentionAllowed) {
             super(referent, queue);
             this.key = Preconditions.checkNotNull(key);
-            this.resource =
-                    referent.isMemoryCacheable() && isActiveResourceRetentionAllowed
-                            ? Preconditions.checkNotNull(referent.getResource()) : null;
+            this.resource = referent.isMemoryCacheable() && isActiveResourceRetentionAllowed ? Preconditions.checkNotNull(referent.getResource()) : null;
             isCacheable = referent.isMemoryCacheable();
         }
 
+        /**
+         * 调用此方法会将references加入与之关联的ReferencesQueue队列，当然这个方法有可能GC也会调用此方法清除references中的对象置为null，
+         * <p>
+         * 所以这里重写WeakReference，使用成员变量保存资源对象，如果你通过get方法获取对象必定为null
+         */
         void reset() {
             resource = null;
             clear();

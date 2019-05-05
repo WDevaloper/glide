@@ -269,8 +269,8 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
             case SWITCH_TO_SOURCE_SERVICE:
                 runGenerators();
                 break;
-            case DECODE_DATA:
-                decodeFromRetrievedData();//直接解码，然后返回解码后的数据
+            case DECODE_DATA://直接解码，然后返回解码后的数据
+                decodeFromRetrievedData();
                 break;
             default:
                 throw new IllegalStateException("Unrecognized run reason: " + runReason);
@@ -329,6 +329,7 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
 
     private void notifyComplete(Resource<R> resource, DataSource dataSource) {
         setNotifiedOrThrow();
+        // 1.1 从 DecodeJob 的构建中, 我们知道这个 Callback 是一 EngineJob.onResourceReady()
         callback.onResourceReady(resource, dataSource);
     }
 
@@ -366,13 +367,14 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
         callback.reschedule(this);
     }
 
+
     @Override
     public void onDataFetcherReady(Key sourceKey, Object data, DataFetcher<?> fetcher,
                                    DataSource dataSource, Key attemptedKey) {
-        this.currentSourceKey = sourceKey;
-        this.currentData = data;
-        this.currentFetcher = fetcher;
-        this.currentDataSource = dataSource;
+        this.currentSourceKey = sourceKey;// 保存数据的 key
+        this.currentData = data;// 保存数据实体
+        this.currentFetcher = fetcher; // 保存数据的获取器
+        this.currentDataSource = dataSource;// 数据来源: url 为 REMOTE 类型的枚举, 表示从远程获取
         this.currentAttemptingKey = attemptedKey;
         if (Thread.currentThread() != currentThread) {
             runReason = RunReason.DECODE_DATA;
@@ -380,6 +382,7 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
         } else {
             GlideTrace.beginSection("DecodeJob.decodeFromRetrievedData");
             try {
+                // 调用 decodeFromRetrievedData 解析获取的数据
                 decodeFromRetrievedData();
             } finally {
                 GlideTrace.endSection();
@@ -411,12 +414,14 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
         }
         Resource<R> resource = null;
         try {
+            // 1. 调用了 decodeFromData 获取资源
             resource = decodeFromData(currentFetcher, currentData, currentDataSource);
         } catch (GlideException e) {
             e.setLoggingDetails(currentAttemptingKey, currentDataSource);
             throwables.add(e);
         }
         if (resource != null) {
+            // 2. 通知外界资源获取成功了
             notifyEncodeAndRelease(resource, currentDataSource);
         } else {
             runGenerators();
@@ -434,11 +439,12 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
             lockedResource = LockedResource.obtain(resource);
             result = lockedResource;
         }
-
+        // 1. 回调上层资源准备好了
         notifyComplete(result, dataSource);
 
         stage = Stage.ENCODE;
         try {
+            // 2. 将数据缓存到磁盘
             if (deferredEncodeManager.hasResourceToEncode()) {
                 deferredEncodeManager.encode(diskCacheProvider, options);
             }
@@ -531,14 +537,27 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
         return stateVerifier;
     }
 
+
+    /**
+     * 当我们将源数据解析成对应的资源之后, 便会调用 DecodeCallback.onResourceDecoded 处理资源
+     *
+     * @param dataSource
+     * @param decoded
+     * @param <Z>
+     * @return
+     */
     @Synthetic
     @NonNull
     <Z> Resource<Z> onResourceDecoded(DataSource dataSource,
                                       @NonNull Resource<Z> decoded) {
         @SuppressWarnings("unchecked")
-        Class<Z> resourceSubClass = (Class<Z>) decoded.get().getClass();
+        // 1. 获取数据资源的类型
+                Class<Z> resourceSubClass = (Class<Z>) decoded.get().getClass();
         Transformation<Z> appliedTransformation = null;
         Resource<Z> transformed = decoded;
+
+
+        // 2. 若非从资源磁盘缓存中获取的数据源, 则对资源进行 transformation 操作
         if (dataSource != DataSource.RESOURCE_DISK_CACHE) {
             appliedTransformation = decodeHelper.getTransformation(resourceSubClass);
             transformed = appliedTransformation.transform(glideContext, decoded, width, height);
@@ -548,6 +567,7 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
             decoded.recycle();
         }
 
+        // 3. 构建数据编码的策略
         final EncodeStrategy encodeStrategy;
         final ResourceEncoder<Z> encoder;
         if (decodeHelper.isResourceEncoderAvailable(transformed)) {
@@ -558,6 +578,7 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
             encodeStrategy = EncodeStrategy.NONE;
         }
 
+        // 4. 根据编码策略, 构建缓存的 key
         Resource<Z> result = transformed;
         boolean isFromAlternateCacheKey = !decodeHelper.isSourceKey(currentSourceKey);
         if (diskCacheStrategy.isResourceCacheable(isFromAlternateCacheKey, dataSource,
@@ -568,28 +589,32 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
             final Key key;
             switch (encodeStrategy) {
                 case SOURCE:
+                    // 源数据的 key
                     key = new DataCacheKey(currentSourceKey, signature);
                     break;
                 case TRANSFORMED:
-                    key =
-                            new ResourceCacheKey(
-                                    decodeHelper.getArrayPool(),
-                                    currentSourceKey,
-                                    signature,
-                                    width,
-                                    height,
-                                    appliedTransformation,
-                                    resourceSubClass,
-                                    options);
+                    // 资源数据的 key
+                    key = new ResourceCacheKey(
+                            decodeHelper.getArrayPool(),
+                            currentSourceKey,
+                            signature,
+                            width,
+                            height,
+                            appliedTransformation,
+                            resourceSubClass,
+                            options);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown strategy: " + encodeStrategy);
             }
 
+
+            // 5. 初始化编码管理者, 用于提交内存缓存
             LockedResource<Z> lockedResult = LockedResource.obtain(transformed);
             deferredEncodeManager.init(key, encoder, lockedResult);
             result = lockedResult;
         }
+        // 返回 transform 之后的 bitmap
         return result;
     }
 
@@ -649,7 +674,7 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
 
     /**
      * Allows transformed resources to be encoded after the transcoded result is already delivered to
-     * requestors.
+     * * requestors.
      */
     private static class DeferredEncodeManager<Z> {
         private Key key;
@@ -671,8 +696,7 @@ class DecodeJob<R> implements DataFetcherGenerator.FetcherReadyCallback, Runnabl
         void encode(DiskCacheProvider diskCacheProvider, Options options) {
             GlideTrace.beginSection("DecodeJob.encode");
             try {
-                diskCacheProvider.getDiskCache().put(key,
-                        new DataCacheWriter<>(encoder, toEncode, options));
+                diskCacheProvider.getDiskCache().put(key, new DataCacheWriter<>(encoder, toEncode, options));
             } finally {
                 toEncode.unlock();
                 GlideTrace.endSection();

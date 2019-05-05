@@ -129,7 +129,7 @@ class EngineJob<R> implements DecodeJob.Callback<R>,
     }
 
     /**
-     * 开线程池执行任务
+     * 开线程池执行DecodeJob任务
      *
      * @param decodeJob
      */
@@ -257,6 +257,7 @@ class EngineJob<R> implements DecodeJob.Callback<R>,
             localResource = engineResource;
         }
 
+        // 资源加载完成，resource为null则代表失败,接着回调Engine的onEngineJobComplete方法
         engineJobListener.onEngineJobComplete(this, localKey, localResource);
 
         for (final ResourceCallbackAndExecutor entry : copy) {
@@ -360,6 +361,7 @@ class EngineJob<R> implements DecodeJob.Callback<R>,
             incrementPendingCallbacks(copy.size() + 1);
         }
 
+        // 资源加载完成，resource为null则代表失败
         engineJobListener.onEngineJobComplete(this, localKey, /*resource=*/ null);
 
         for (ResourceCallbackAndExecutor entry : copy) {

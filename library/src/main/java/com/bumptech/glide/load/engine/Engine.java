@@ -182,8 +182,6 @@ public class Engine implements EngineJobListener,
                                             ResourceCallback cb,
                                             Executor callbackExecutor) {
 
-        long startTime = VERBOSE_IS_LOGGABLE ? LogTime.getLogTime() : 0;
-
 
         // -------------开始检测缓存----------------
 
@@ -196,7 +194,7 @@ public class Engine implements EngineJobListener,
             cb.onResourceReady(active, DataSource.MEMORY_CACHE);
             return null;
         }
-        // 检查当前内存缓存
+        // 检查当前Lru内存缓存
         EngineResource<?> cached = loadFromCache(key, isMemoryCacheable);
         if (cached != null) {
             cb.onResourceReady(cached, DataSource.MEMORY_CACHE);
@@ -212,14 +210,13 @@ public class Engine implements EngineJobListener,
         }
 
 
-        // 开始新的加载
+        // ----------------开始新的加载----------------
 
         EngineJob<R> engineJob = engineJobFactory.build(key,
                 isMemoryCacheable,
                 useUnlimitedSourceExecutorPool,
                 useAnimationPool,
                 onlyRetrieveFromCache);
-
 
 
         //构建DecodeJob 顺便构建DecodeHelper
@@ -247,15 +244,13 @@ public class Engine implements EngineJobListener,
         return new LoadStatus(cb, engineJob);
     }
 
-    private static void logWithTimeAndKey(String log, long startTime, Key key) {
-        Log.v(TAG, log + " in " + LogTime.getElapsedMillis(startTime) + "ms, key: " + key);
-    }
-
     @Nullable
     private EngineResource<?> loadFromActiveResources(Key key, boolean isMemoryCacheable) {
+        //判断是否禁用缓存
         if (!isMemoryCacheable) {
             return null;
         }
+
         EngineResource<?> active = activeResources.get(key);
         if (active != null) {
             active.acquire();
@@ -287,6 +282,7 @@ public class Engine implements EngineJobListener,
      * @return
      */
     private EngineResource<?> loadFromCache(Key key, boolean isMemoryCacheable) {
+        //判断是否禁用缓存
         if (!isMemoryCacheable) {
             return null;
         }
@@ -295,6 +291,7 @@ public class Engine implements EngineJobListener,
         EngineResource<?> cached = getEngineResourceFromCache(key);
         if (cached != null) {
             cached.acquire();
+            // 加入第一级缓存
             activeResources.activate(key, cached);
         }
         return cached;
@@ -304,6 +301,7 @@ public class Engine implements EngineJobListener,
 
         // 从LruCache中获取并移除资源，可能会返回null
         Resource<?> cached = cache.remove(key);
+
         final EngineResource<?> result;
 
         //如果返回没有资源，直接返回null
@@ -313,8 +311,8 @@ public class Engine implements EngineJobListener,
             // Save an object allocation if we've cached an EngineResource (the typical case).
             result = (EngineResource<?>) cached;
         } else {
-            result = new EngineResource<>(
-                    cached, /*isMemoryCacheable=*/ true, /*isRecyclable=*/ true, key, /*listener=*/ this);
+            result = new EngineResource<>(cached, /*isMemoryCacheable=*/ true,
+                    /*isRecyclable=*/ true, key, /*listener=*/ this);
         }
         return result;
     }

@@ -23,6 +23,7 @@ public final class ObjectKey implements Key {
 
   @Override
   public String toString() {
+
     return "ObjectKey{"
         + "object=" + object
         + '}';
