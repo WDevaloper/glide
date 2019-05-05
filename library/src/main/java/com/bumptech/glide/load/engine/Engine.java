@@ -184,6 +184,9 @@ public class Engine implements EngineJobListener,
 
         long startTime = VERBOSE_IS_LOGGABLE ? LogTime.getLogTime() : 0;
 
+
+        // -------------开始检测缓存----------------
+
         //使用参数构造缓存Key
         EngineKey key = keyFactory.buildKey(model, signature, width, height, transformations, resourceClass, transcodeClass, options);
 
@@ -260,11 +263,35 @@ public class Engine implements EngineJobListener,
         return active;
     }
 
+
+    /**
+     * 当我们从LruResourceCache中获取到缓存图片之后会将它从缓存中移除，
+     * 然后将缓存图片存储到activeResources当中。
+     * activeResources就是一个弱引用的HashMap，用来缓存正在使用中的图片，
+     * 我们可以看到，loadFromActiveResources()方法就是从activeResources这个HashMap当中取值的。
+     * 使用activeResources来缓存正在使用中的图片，可以保护这些图片不会被LruCache算法回收掉。
+     * <p>
+     * 为什么会说可以保护这些图片不会被LruCache算法回收掉呢？
+     * 因为在ActiveResources中使用WeakReference+ReferenceQueue机制，监控GC回收，如果GC把资源回收，那么ActiveResources
+     * 会被再次加入LruCache内存缓存中，从而起到了保护的作用。
+     * <p>
+     * <p>
+     * <p>
+     * 也就是说：
+     * glide的LruCache还实现了另一个接口MemoryCache，有trimMemory和clearMemory等回收内存的方法。
+     * 而activeResource会在内存回收添加到ReferenceQueue时，触发将该资源put到Lrucache的操作，防止资源被回收。
+     * 换言之LruCache中的数据并不安全，activeResources是安全的。
+     *
+     * @param key
+     * @param isMemoryCacheable
+     * @return
+     */
     private EngineResource<?> loadFromCache(Key key, boolean isMemoryCacheable) {
         if (!isMemoryCacheable) {
             return null;
         }
 
+        // 在getEngineResourceFromCache方法中，会将已经存在内存缓存中的资源移除之后会加入activeResources缓存中
         EngineResource<?> cached = getEngineResourceFromCache(key);
         if (cached != null) {
             cached.acquire();
@@ -274,9 +301,12 @@ public class Engine implements EngineJobListener,
     }
 
     private EngineResource<?> getEngineResourceFromCache(Key key) {
-        Resource<?> cached = cache.remove(key);
 
+        // 从LruCache中获取并移除资源，可能会返回null
+        Resource<?> cached = cache.remove(key);
         final EngineResource<?> result;
+
+        //如果返回没有资源，直接返回null
         if (cached == null) {
             result = null;
         } else if (cached instanceof EngineResource) {
@@ -297,12 +327,20 @@ public class Engine implements EngineJobListener,
         }
     }
 
+    /**
+     * 这个方法是在当资源从LruCache、disLruCache和网络加载成功，将资源加入正在使用中
+     *
+     * @param engineJob
+     * @param key
+     * @param resource
+     */
     @SuppressWarnings("unchecked")
     @Override
     public synchronized void onEngineJobComplete(
             EngineJob<?> engineJob, Key key, EngineResource<?> resource) {
         // A null resource indicates that the load failed, usually due to an exception.
         if (resource != null && resource.isMemoryCacheable()) {
+            //当资源加载成功，将资源加入正在使用中，如：LruCache、disLruCache和网络
             activeResources.activate(key, resource);
         }
 
@@ -319,6 +357,14 @@ public class Engine implements EngineJobListener,
         resourceRecycler.recycle(resource);
     }
 
+
+    /**
+     * 这个方法会在ActiveResource类中，正在使用的资源被清理时回调过来。
+     * 然后重新把资源加入LruCache缓存中
+     *
+     * @param cacheKey
+     * @param resource
+     */
     @Override
     public synchronized void onResourceReleased(Key cacheKey, EngineResource<?> resource) {
         activeResources.deactivate(cacheKey);
