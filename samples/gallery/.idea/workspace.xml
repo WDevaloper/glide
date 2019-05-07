@@ -17,19 +17,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee7fbae3-d3bf-4a41-bbd3-1f4f8ee91e32" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/GlideBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/GlideBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/ActiveResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/ActiveResources.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodeJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/DecodePath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/Engine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/EngineJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/EngineJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/EngineKeyFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/EngineKeyFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/EngineResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/EngineResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/cache/LruResourceCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/load/engine/cache/LruResourceCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/signature/ObjectKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../library/src/main/java/com/bumptech/glide/signature/ObjectKey.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="ee7fbae3-d3bf-4a41-bbd3-1f4f8ee91e32" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
