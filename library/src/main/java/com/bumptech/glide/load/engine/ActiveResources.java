@@ -44,21 +44,20 @@ final class ActiveResources {
         this(
                 isActiveResourceRetentionAllowed,
                 //启动监控线程
-                java.util.concurrent.Executors.newSingleThreadExecutor(
-                        new ThreadFactory() {
-                            @Override
-                            public Thread newThread(@NonNull final Runnable r) {
-                                return new Thread(
-                                        new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-                                                r.run();
-                                            }
-                                        },
-                                        "glide-active-resources");
-                            }
-                        }));
+                java.util.concurrent.Executors.newSingleThreadExecutor(new ThreadFactory() {
+                    @Override
+                    public Thread newThread(@NonNull final Runnable r) {
+                        return new Thread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+                                        r.run();
+                                    }
+                                },
+                                "glide-active-resources");
+                    }
+                }));
     }
 
     @VisibleForTesting
@@ -66,13 +65,12 @@ final class ActiveResources {
         this.isActiveResourceRetentionAllowed = isActiveResourceRetentionAllowed;
         this.monitorClearedResourcesExecutor = monitorClearedResourcesExecutor;
 
-        monitorClearedResourcesExecutor.execute(
-                new Runnable {
-                    @Override
-                    public void run() {
-                        cleanReferenceQueue();
-                    }
-                });
+        monitorClearedResourcesExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                cleanReferenceQueue();
+            }
+        });
     }
 
     void setListener(ResourceListener listener) {

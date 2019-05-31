@@ -42,6 +42,7 @@ public class MainActivity extends Activity implements Api.Monitor {
         .load(R.raw.large_giphy_logo)
         .into(giphyLogoView);
 
+
     RecyclerView gifList = findViewById(R.id.gif_list);
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     gifList.setLayoutManager(layoutManager);
